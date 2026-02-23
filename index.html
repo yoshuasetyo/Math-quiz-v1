@@ -20,6 +20,12 @@
     <script type="text/babel">
         const { useState, useEffect } = React;
 
+        // ==========================================
+        // EDIT YOUR QUIZ TITLE HERE
+        // ==========================================
+        const QUIZ_FILE_NAME = "Math Quiz v1"; 
+        // ==========================================
+
         const MASTER_QUESTIONS = [
             { id: 1, q: "If a train travels 60 miles in 1.5 hours, what is its average speed in miles per hour?", options: ["30 mph", "40 mph", "45 mph", "50 mph"], a: "40 mph" },
             { id: 2, q: "Solve for x: 2x + 15 = 31", options: ["x = 6", "x = 8", "x = 9", "x = 10"], a: "x = 8" },
@@ -50,25 +56,6 @@
             const [answers, setAnswers] = useState({}); 
             const [isSubmitting, setIsSubmitting] = useState(false);
             const [submitted, setSubmitted] = useState(false);
-
-            // ==========================================
-            // START OF DEV SKIP (REMOVE THIS BLOCK LATER)
-            // ==========================================
-            useEffect(() => {
-                const skipNaming = true; // Set to false to see the name screen again
-                if (skipNaming) {
-                    setStudentName("Developer");
-                    const fixedQuestionsWithShuffledOptions = MASTER_QUESTIONS.map(q => ({
-                        ...q,
-                        options: shuffle(q.options)
-                    }));
-                    setQuestions(fixedQuestionsWithShuffledOptions);
-                    setStep('quiz');
-                }
-            }, []);
-            // ==========================================
-            // END OF DEV SKIP
-            // ==========================================
 
             const startQuiz = () => {
                 if (studentName.trim().length < 2) return;
@@ -101,7 +88,7 @@
                 return (
                     <div className="flex items-center justify-center min-h-screen p-6 bg-slate-50">
                         <div className="bg-white p-10 rounded-[2.5rem] shadow-xl max-w-md w-full text-center">
-                            <h1 className="text-3xl font-black text-slate-800 mb-6 tracking-tight">Math Quiz v1</h1>
+                            <h1 className="text-3xl font-black text-slate-800 mb-6 tracking-tight">{QUIZ_FILE_NAME}</h1>
                             <input 
                                 type="text" 
                                 value={studentName}
@@ -144,9 +131,13 @@
 
             return (
                 <div className="flex flex-col items-center justify-center min-h-screen p-4 bg-slate-50">
+                    {/* TOP FILENAME LABEL */}
+                    <div className="mb-4 text-slate-400 font-bold text-xs uppercase tracking-[0.2em]">
+                        {QUIZ_FILE_NAME}
+                    </div>
+
                     <div className="bg-white p-6 md:p-10 rounded-[2rem] shadow-xl max-w-lg w-full">
                         
-                        {/* Navigation Header */}
                         <div className="flex justify-between items-center mb-8 border-b border-slate-50 pb-4">
                             <button 
                                 onClick={() => currentIdx > 0 && setCurrentIdx(c => c - 1)}
@@ -166,14 +157,12 @@
                             </button>
                         </div>
 
-                        {/* Word Problem Area - Smaller, more readable text */}
                         <div className="mb-10 min-h-[100px] flex items-center justify-center text-center">
                             <h2 className="text-xl md:text-2xl font-semibold text-slate-700 leading-relaxed px-2">
                                 {currentQuestion.q}
                             </h2>
                         </div>
 
-                        {/* Vertical Options Layout */}
                         <div className="flex flex-col gap-3">
                             {currentQuestion.options.map((opt, i) => (
                                 <button 
@@ -197,7 +186,6 @@
                             ))}
                         </div>
 
-                        {/* Bottom Submit Shortcut */}
                         {currentIdx === questions.length - 1 && (
                             <button 
                                 onClick={() => setStep('finished')}
@@ -208,7 +196,6 @@
                         )}
                     </div>
                     
-                    {/* Navigation Dots below card */}
                     <div className="mt-8 flex gap-2">
                         {questions.map((q, idx) => (
                             <button
